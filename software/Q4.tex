@@ -1,0 +1,86 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{amsmath,booktabs}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\begin{document}
+\begin{center}
+{\Large\bfseries Q4: MNIST Multi-Layer Perceptron}\par
+Parameter count and operations per input image
+\end{center}
+
+\textbf{Architecture.} In the supplied Code4 GPU notebook, a $28\times28$
+grayscale image is flattened to $784$ inputs. The three fully connected
+layers are
+\[
+784\xrightarrow{\texttt{fc1}}512
+\xrightarrow{\texttt{fc2}}512
+\xrightarrow{\texttt{fc3}}10.
+\]
+Each layer has a bias for every output neuron. The actual forward method
+applies ReLU after \emph{all three layers}, including the final 10 outputs.
+
+\section*{1. Total parameters}
+A fully connected layer with $n_{\rm in}$ inputs and $n_{\rm out}$ outputs has
+$n_{\rm in}n_{\rm out}$ weights and $n_{\rm out}$ independent bias parameters:
+\[
+P=n_{\rm in}n_{\rm out}+n_{\rm out}.
+\]
+\begin{center}
+\begin{tabular}{lrrr}
+\toprule
+Layer & Weights & Bias parameters & Total parameters\\
+\midrule
+\texttt{fc1}: $784\to512$ & $784(512)=401{,}408$ & $512$ & $401{,}920$\\
+\texttt{fc2}: $512\to512$ & $512(512)=262{,}144$ & $512$ & $262{,}656$\\
+\texttt{fc3}: $512\to10$ & $512(10)=5{,}120$ & $10$ & $5{,}130$\\
+\midrule
+Total & $668{,}672$ & $1{,}034$ & $669{,}706$\\
+\bottomrule
+\end{tabular}
+\end{center}
+\[
+\boxed{P_{\rm total}=401{,}920+262{,}656+5{,}130
+ =669{,}706\text{ parameters}.}
+\]
+Flattening and ReLU introduce no trainable parameters.
+
+\section*{2. Total operations per image}
+Each output neuron computes a dot product with $n_{\rm in}$ inputs,
+giving $n_{\rm in}n_{\rm out}$ MACs per layer. Using the specified rules,
+one MAC costs $2$ operations, one bias addition costs $1$, and one ReLU
+costs $1$. Therefore, for each layer in this network,
+\[
+O=\underbrace{2n_{\rm in}n_{\rm out}}_{\text{MAC operations}}
+  +\underbrace{n_{\rm out}}_{\text{bias additions}}
+  +\underbrace{n_{\rm out}}_{\text{ReLU operations}}.
+\]
+\begin{center}
+\begin{tabular}{lrrrrr}
+\toprule
+Layer & MACs & MAC operations & Bias adds & ReLUs & Total operations\\
+\midrule
+\texttt{fc1} & $401{,}408$ & $802{,}816$ & $512$ & $512$ & $803{,}840$\\
+\texttt{fc2} & $262{,}144$ & $524{,}288$ & $512$ & $512$ & $525{,}312$\\
+\texttt{fc3} & $5{,}120$ & $10{,}240$ & $10$ & $10$ & $10{,}260$\\
+\midrule
+Total & $668{,}672$ & $1{,}337{,}344$ & $1{,}034$ & $1{,}034$ & $1{,}339{,}412$\\
+\bottomrule
+\end{tabular}
+\end{center}
+\[
+\boxed{O_{\rm total}=803{,}840+525{,}312+10{,}260
+ =1{,}339{,}412\text{ operations per image}.}
+\]
+
+\textbf{Counting scope.} The total covers one forward pass on a preprocessed
+image. Flattening adds no arithmetic. Training, preprocessing, and device
+transfers are excluded; GPU execution does not change this count.
+The final \texttt{argmax} has no specified comparison cost. If one comparison
+costs one operation, selecting the largest of 10 outputs adds $10-1=9$,
+giving $1{,}339{,}421$ operations including class selection.
+
+\textbf{Verification.} Instantiating the notebook's \texttt{Net} class and
+summing \texttt{p.numel()} over its parameters gives $669{,}706$.
+Layer dimensions and the three ReLU calls give the operation totals above.
+\end{document}
