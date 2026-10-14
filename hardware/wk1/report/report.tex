@@ -1,0 +1,48 @@
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[margin=0.8in]{geometry}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{microtype}
+\usepackage{url}
+
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  frame=single,
+  keepspaces=true,
+  numbers=left,
+  numberstyle=\tiny,
+  showstringspaces=false
+}
+
+\title{ECE 284 HW 1\\Reconfigurable MAC Unit}
+\author{Russ Sobti}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Overall}
+\noindent\includegraphics[width=\linewidth,trim=0 1750 0 0,clip]{overall-waveform.png}
+
+\section{Format 0, Acc 1}
+\noindent\includegraphics[width=\linewidth,trim=0 155 550 0,clip]{format0-acc1.png}
+
+\section{Format 1, Acc 1}
+\noindent\includegraphics[width=\linewidth,trim=0 150 500 0,clip]{format1-acc1.png}
+
+\section{Format 0, Acc 0}
+\noindent\includegraphics[width=\linewidth,trim=0 190 450 0,clip]{format0-acc0.png}
+
+\section{Format 1, Acc 0}
+\noindent\includegraphics[width=\linewidth,trim=0 420 1700 0,clip]{format1-acc0.png}
+
+\clearpage
+\section{Code Snippet}
+\lstinputlisting[language=Verilog,firstline=18,lastline=43]{../hw1/verilog/mac.v}
+
+\section{Linux Cloud Realpath}
+\path{/home/linux/ieng6/ECE284_FA26_001/rsobti/ece284fa26/hardware/wk1/hw1}
+
+\end{document}
