@@ -1,0 +1,64 @@
+# macOS metadata
+.DS_Store
+._*
+.AppleDouble/
+.LSOverride
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+
+# Jupyter checkpoints and local kernel connection files
+.ipynb_checkpoints/
+kernel-*.json
+
+# Downloaded MNIST datasets and generated model checkpoints
+/software/**/data/MNIST/
+/software/**/save/
+
+# Verilog simulator executables, waveforms, and Verilator builds
+/hardware/**/compiled
+/hardware/**/*.vcd
+/hardware/**/*.fst
+/hardware/**/*.vvp
+/hardware/**/obj_dir/
+
+# LaTeX intermediate files; keep .tex, PDFs, and report figures
+*.aux
+*.log
+*.toc
+*.lof
+*.lot
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.nav
+*.snm
+*.vrb
+*.xdv
+
+# Local credentials; keep example configuration files trackable
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+
+# Editor temporary files
+*.swp
+*.swo
+*~
