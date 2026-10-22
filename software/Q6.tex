@@ -18,7 +18,7 @@ after each epoch.
 
 \section*{Observed behavior}
 With the same initialization and optimizer settings, batch training oscillates
-initially, then settles near the minimum full-data MSE. Per-point SGD has a
+initially, then settles at a nearly constant loss. Per-point SGD has a
 much noisier curve, including large fluctuations late in training.
 \begin{center}
 \begin{tabular}{lrr}
@@ -30,34 +30,14 @@ Per-point SGD & 900 & 5.776175\\
 \bottomrule
 \end{tabular}
 \end{center}
-SGD's final loss is one point among
-ongoing fluctuations, rather than evidence that its weights have settled.
-During the last 50 epochs, its MSE ranged from approximately $5.523$ to $206.057$,
-whereas the batch MSE remained approximately $5.476191$.
-
 \section*{Why this happens}
-Each sample pushes the weights toward a different solution. Here $x_2=3x_1$,
-so the model is effectively
-\[
-\hat y=w_1x_1+w_2x_2=(w_1+3w_2)x_1=cx_1.
-\]
-The three input--target pairs require slopes $1$, $5/2$, and $13/3$.
-No single slope fits all three exactly. Batch training averages their gradients
-before each update, allowing it to settle at the best compromise. SGD uses one
-sample's gradient, so improving that sample can worsen the other two. Shuffling
-changes the order of these competing pushes.
+Batch training averages the gradients from all three data points before each
+update. This balances their competing effects, producing a more stable loss
+curve after the initial oscillations.
 
-The constant learning rate keeps SGD's updates from shrinking automatically.
-Momentum carries earlier updates forward and can amplify overshooting.
-Larger inputs also create larger gradients, since the sample gradient is
-$2(\hat y-y)x$. Thus the loss fluctuations are caused by changes in the weights,
-not merely by plotting a different sample's loss at each step.
-
-The least-squares compromise is
-\[
-c=\frac{1(1)+2(5)+3(13)}{1^2+2^2+3^2}=\frac{25}{7},
-\qquad L_{\min}=\frac{115}{21}\approx5.476190.
-\]
-Reducing or decaying SGD's learning rate would help it settle closer to this
-compromise. It would not eliminate the model's inability to fit all three targets.
+SGD updates using one point at a time. An update that improves one point can
+worsen the others, so the full-data loss fluctuates. Shuffling the points changes
+the order of these updates. The constant learning rate keeps the updates from
+shrinking automatically, and momentum carries previous updates forward, which
+can amplify overshooting.
 \end{document}

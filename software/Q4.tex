@@ -73,14 +73,4 @@ Total & $668{,}672$ & $1{,}337{,}344$ & $1{,}034$ & $1{,}034$ & $1{,}339{,}412$\
  =1{,}339{,}412\text{ operations per image}.}
 \]
 
-\textbf{Counting scope.} The total covers one forward pass on a preprocessed
-image. Flattening adds no arithmetic. Training, preprocessing, and device
-transfers are excluded; GPU execution does not change this count.
-The final \texttt{argmax} has no specified comparison cost. If one comparison
-costs one operation, selecting the largest of 10 outputs adds $10-1=9$,
-giving $1{,}339{,}421$ operations including class selection.
-
-\textbf{Verification.} Instantiating the notebook's \texttt{Net} class and
-summing \texttt{p.numel()} over its parameters gives $669{,}706$.
-Layer dimensions and the three ReLU calls give the operation totals above.
 \end{document}
