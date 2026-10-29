@@ -1,0 +1,21 @@
+((* extends 'index.tex.j2' *))
+
+((* block packages *))
+((( super() )))
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+% Pandoc's uncaptioned tables need this counter with TeX Live 2025.
+\newcounter{none}
+((* endblock packages *))
+
+((* block margins *))
+\geometry{hmargin=0.75in,vmargin=0.5in}
+((* endblock margins *))
+
+((* block maketitle *))((* endblock maketitle *))
+
+((* block stream *))
+\par\noindent\begin{minipage}{\linewidth}
+((( super() )))
+\end{minipage}\par
+((* endblock stream *))

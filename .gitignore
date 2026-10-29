@@ -21,9 +21,13 @@ htmlcov/
 .ipynb_checkpoints/
 kernel-*.json
 
-# Downloaded MNIST datasets and generated model checkpoints
+# Downloaded datasets and generated model checkpoints
 /software/**/data/MNIST/
 /software/**/save/
+/software/data/cifar-10-batches-py/
+/software/data/cifar-10-python.tar.gz*
+/software/result/
+/software/output/hw3-preview/
 
 # Verilog simulator executables, waveforms, and Verilator builds
 /hardware/**/compiled
